@@ -31,6 +31,13 @@
           <label class="form-label">Address</label>
           <textarea name="address" class="form-control">{{ company.address or '' }}</textarea>
         </div>
+
+        <!-- 🔥 Flash News Field -->
+        <div class="col-12">
+          <label class="form-label">Flash News</label>
+          <input type="text" name="flash_news" class="form-control" value="{{ company.flash_news or '' }}">
+        </div>
+
         <div class="col-12">
           <label class="form-label">Logo</label>
           <input type="file" name="logo" class="form-control">
