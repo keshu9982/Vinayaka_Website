@@ -1,1 +1,9 @@
-
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "phone": "1234567890",
+  "role": "Technical",
+  "location": "Bangalore",
+  "username": "johndoe",
+  "password": "<hashed_password_here>"
+}
