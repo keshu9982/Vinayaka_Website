@@ -171,6 +171,7 @@ def edit_company_info():
         data["email"] = request.form.get("email")
         data["phone"] = request.form.get("phone")
         data["website"] = request.form.get("website")
+        data["flash_news"] = request.form.get("flash_news")
 
         if "logo" in request.files:
             logo = request.files["logo"]
