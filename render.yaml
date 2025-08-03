@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: vinayaka-enterprise
+    env: python
+    buildCommand: "pip install -r Vinayaka_Website/requirements.txt"
+    startCommand: "gunicorn Vinayaka_Website.app:app"
+
+
+# services:
+#   - type: web
+#     name: vinayaka-web
+#     env: python
+#     buildCommand: "pip install -r requirements.txt"
+#     startCommand: "gunicorn app:app"
+#     autoDeploy: true

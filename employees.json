@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Keshav Saini",
+    "email": "keshu@gmail.com",
+    "phone": "9876543210",
+    "role": "Employee",
+    "location": "jaipur",
+    "username": "keshav",
+    "password": "scrypt:32768:8:1$MZZHorCKvQ9esoYL$f0a1c72aba4bb106db2d88ac359a1256e706ccbe3c3f33b4549ee5f2702d2b514bea4a034210b43a11cac82ee2774cfef8c8352acc707f7315d511afd217d6a9"
+  },
+  {
+    "name": "Pintu kumar",
+    "email": "pintu@gmail.com",
+    "phone": "9988776655",
+    "role": "Admin",
+    "location": "Jaipur",
+    "username": "pintu",
+    "password": "scrypt:32768:8:1$E2qOxRI4GVGsZNsh$f724895731e916e1531562b79315fca93f76932d9c6fb8b733a0f8c3ad667379c3e628174abf1b6b4d674b089ead7e5ac52286a459e4ea29d56c717d5cdc9857"
+  }
+]
