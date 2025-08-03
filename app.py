@@ -63,6 +63,16 @@ def login():
 
     return render_template("login.html", company=company)
 
+# @app.route("/dashboard")
+# def dashboard():
+#     if "user" not in session:
+#         return redirect(url_for("login"))
+
+#     employees = []
+#     if os.path.exists("employees.json"):
+#         with open("employees.json", "r") as f:
+#             employees = json.load(f)
+
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
@@ -91,17 +101,57 @@ def logout():
 def add_employee():
     if "user" not in session:
         return redirect(url_for("login"))
+
     if request.method == "POST":
         pwd = generate_password_hash(request.form["password"])
-        emp = {k: request.form[k] for k in ("name", "email", "phone", "role", "location")}
-        emp["username"] = request.form["username"]
-        emp["password"] = pwd
-        employees = json.load(open("employees.json", "r")) if os.path.exists("employees.json") else []
+        
+        emp = {
+            "name": request.form["name"],
+            "employee_id": request.form["employee_id"],
+            "email": request.form["email"],
+            "phone": request.form["phone"],
+            "role": request.form["role"],
+            "location": request.form["location"],
+            "gender": request.form["gender"],
+            "dob": request.form["dob"],
+            "id_number": request.form["id_number"],
+            "joining_date": request.form["joining_date"],
+            "leaving_date": request.form["leaving_date"],
+            "username": request.form["username"],
+            "password": pwd
+        }
+
+        employees = []
+        if os.path.exists("employees.json"):
+            with open("employees.json", "r") as f:
+                employees = json.load(f)
+
         employees.append(emp)
-        json.dump(employees, open("employees.json", "w"), indent=2)
+
+        with open("employees.json", "w") as f:
+            json.dump(employees, f, indent=4)
+
         flash("Employee added successfully!", "success")
         return redirect(url_for("dashboard"))
+
     return render_template("add_employee.html")
+
+
+# @app.route("/add-employee", methods=["GET", "POST"])
+# def add_employee():
+#     if "user" not in session:
+#         return redirect(url_for("login"))
+#     if request.method == "POST":
+#         pwd = generate_password_hash(request.form["password"])
+#         emp = {k: request.form[k] for k in ("name", "email", "phone", "role", "location")}
+#         emp["username"] = request.form["username"]
+#         emp["password"] = pwd
+#         employees = json.load(open("employees.json", "r")) if os.path.exists("employees.json") else []
+#         employees.append(emp)
+#         json.dump(employees, open("employees.json", "w"), indent=2)
+#         flash("Employee added successfully!", "success")
+#         return redirect(url_for("dashboard"))
+#     return render_template("add_employee.html")
 
 @app.route("/edit/<int:index>", methods=["GET", "POST"])
 def edit_employee(index):
