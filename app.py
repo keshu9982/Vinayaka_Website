@@ -7,6 +7,7 @@ from models import Employee, PasswordResetRequest
 app = Flask(__name__, template_folder="templates")
 app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///vinayaka.db'
+app.config['UPLOAD_FOLDER'] = 'static/company_docs'
 
 db.init_app(app)
 
@@ -362,6 +363,92 @@ def reject_request(req_id):
     db.session.commit()
     flash("Reset request rejected successfully.", "info")
     return redirect(url_for("dashboard"))
+
+
+
+############Company Doc #####################
+@app.route("/upload-employee", methods=["GET", "POST"])
+def upload_employee_csv():
+    if "user" not in session:
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        file = request.files.get("employee_file")
+        if file and file.filename.endswith(".csv"):
+            os.makedirs("uploads", exist_ok=True)
+            filepath = os.path.join("uploads", file.filename)
+            file.save(filepath)
+            flash("Employee CSV uploaded successfully!", "success")
+        else:
+            flash("Only CSV files are allowed!", "danger")
+
+    return render_template("upload_employee.html")
+
+# @app.route("/company-documents", methods=["GET", "POST"])
+# def company_documents():
+#     if "user" not in session:
+#         return redirect(url_for("login"))
+
+#     doc_list = []
+#     doc_json = "company_docs.json"
+
+#     # Load existing docs
+#     if os.path.exists(doc_json):
+#         with open(doc_json, "r") as f:
+#             doc_list = json.load(f)
+
+#     uploaded = False
+
+#     if request.method == "POST":
+#         file = request.files.get("document")
+#         if file and file.filename:
+#             os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+#             filepath = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+#             file.save(filepath)
+
+#             if file.filename not in doc_list:
+#                 doc_list.append(file.filename)
+#                 with open(doc_json, "w") as f:
+#                     json.dump(doc_list, f, indent=2)
+
+#             uploaded = True
+
+#     return render_template("company_documents.html", documents=doc_list, uploaded=uploaded)
+
+@app.route('/company-documents', methods=['GET', 'POST'])
+def company_documents():
+    UPLOAD_FOLDER = 'static/company_doc'
+    os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+    if request.method == 'POST':
+        file = request.files.get('document')
+        if file:
+            file.save(os.path.join(UPLOAD_FOLDER, file.filename))
+            flash('File uploaded successfully.', 'success')
+        else:
+            flash('No file selected.', 'danger')
+
+    documents = os.listdir(UPLOAD_FOLDER)
+    return render_template('company_documents.html', documents=documents)
+
+
+    #return render_template('company_documents.html', documents=doc_list)
+
+########### Del Doc #################
+@app.route('/delete-document/<filename>', methods=['POST'])
+def delete_document(filename):
+    try:
+        file_path = os.path.join('static/company_doc', filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            flash('File deleted successfully.', 'success')
+        else:
+            flash('File not found.', 'danger')
+    except Exception as e:
+        flash(f'Error deleting file: {str(e)}', 'danger')
+    return redirect(url_for('company_documents'))
+
+
 
 # ---------------- Run App ---------------- #
 if __name__ == '__main__':

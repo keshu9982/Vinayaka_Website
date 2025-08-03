@@ -4,9 +4,8 @@
     "email": "keshu@gmail.com",
     "phone": "9876543210",
     "role": "Employee",
-    "location": "jaipur",
-    "username": "keshav",
-    "password": "scrypt:32768:8:1$MZZHorCKvQ9esoYL$f0a1c72aba4bb106db2d88ac359a1256e706ccbe3c3f33b4549ee5f2702d2b514bea4a034210b43a11cac82ee2774cfef8c8352acc707f7315d511afd217d6a9"
+    "location": "jaipur raj",
+    "username": "keshav"
   },
   {
     "name": "Pintu kumar",
