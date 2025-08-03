@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notice Board</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container py-5">
+    <h2 class="mb-4">📢 Notice Board</h2>
+
+    {% if notices %}
+        {% for notice in notices %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ notice.title }}</h5>
+                <p class="card-text">{{ notice.message }}</p>
+
+                {% if notice.attachment %}
+                    <a href="{{ url_for('static', filename=notice.attachment) }}"
+                       class="btn btn-sm btn-outline-secondary" target="_blank">
+                        📎 View Attachment
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-warning">No notices posted yet.</div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary">← Back to Home</a>
+    </div>
+</div>
+</body>
+</html>

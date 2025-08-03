@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Vinayaka{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<div class="container text-center my-4">
+  {% if company.logo %}
+    <img src="{{ url_for('static', filename=company.logo) }}" alt="Company Logo" class="mb-2" style="max-height: 80px;">
+  {% endif %}
+  <h2 class="fw-bold">{{ company.name or "Company Name" }}</h2>
+</div>
+
+<body>
+    <header>
+        <h1>Vinayaka Company</h1>
+        <nav>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('services') }}">Services</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('login') }}">Admin Login</a>
+            <a href="{{ url_for('employee_login') }}">Employee Login</a>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Vinayaka Company</p>
+    </footer>
+</body>
+</html>

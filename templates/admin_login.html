@@ -1,0 +1,43 @@
+<body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="container">
+        <div class="text-center mb-4">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="max-height: 100px;" class="mb-3">
+            <h2>{{ company.name if company else "Welcome!" }}</h2>
+            <p>{{ company.about if company else "Please login to continue." }}</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3 text-center">Admin Login</h4>
+                        <form method="POST" action="{{ url_for('login') }}">
+                            <div class="mb-3">
+                                <label>Username</label>
+                                <input type="text" name="username" class="form-control" required>
+                            </div>
+                            <div class="mb-3">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Login</button>
+                        <a href="{{ url_for('reset_password') }}" class="btn btn-warning">Reset Employee Password</a>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('home') }}">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

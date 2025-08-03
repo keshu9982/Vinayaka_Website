@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>Upload CSV</title></head>
+<body>
+<h2>Upload Employee CSV</h2>
+<form method="post" enctype="multipart/form-data">
+    <input type="file" name="employee_file">
+    <button type="submit">Upload</button>
+</form>
+<p><a href="{{ url_for('dashboard') }}">⬅ Back</a></p>
+</body>
+</html>

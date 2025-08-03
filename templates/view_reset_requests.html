@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reset Requests</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-3">Password Reset Requests</h2>
+
+    {% if requests %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Identifier</th>
+                <th>Requested At</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in requests %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ r.identifier }}</td>
+                <td>{{ r.requested_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>
+                    <a href="{{ url_for('reset_now', req_id=r.id) }}" class="btn btn-sm btn-primary">Reset Now</a>
+                    <a href="{{ url_for('reject_request', req_id=r.id) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to reject this request?');">Reject</a>
+            </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <div class="alert alert-info">No reset requests available.</div>
+    {% endif %}
+</div>
+<div class="text-center mt-4">
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+</div>
+
+</body>
+</html>
