@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>{{ company.name }}</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
   <style>
     body {
       background-color: #f8f9fa;
@@ -113,28 +114,32 @@
       <div class="card p-5 left-content">
         <h1 class="fw-bold text-primary mb-3">Welcome to {{ company.name }}</h1>
         <p class="fs-4 text-dark">
-            We are a dedicated manpower solutions provider, offering skilled personnel for a wide range of services including sweeping, technical work, maintenance, and more—ensuring dependable support for every operational need.
+          We are a dedicated manpower solutions provider, offering skilled personnel for a wide range of services including sweeping, technical work, maintenance, and more—ensuring dependable support for every operational need.
         </p>
       </div>
 
+      <!-- Notice Board -->
       <div class="col-md-4">
         <div class="card p-4 bg-warning-subtle" style="height: 400px; overflow-y: auto;">
           <h5><i class="bi bi-journal-text"></i> Notice Board</h5>
           <hr>
-          {% for notice in notices[:3] %}
-        <div class="mb-3">
-        <span class="fw-bold fs-5">📢 {{ notice.title }}</span><br>
-        <div class="text-dark fs-6">{{ notice.message }}</div>
-        <small>{{ notice.message }}</small>
+          {% for notice in notices[:5] %}
+            <div class="mb-3 pb-2 border-bottom">
+              <span class="fw-bold fs-5 text-dark">
+                📢 {{ notice.title }}
+              </span><br>
+              <span class="text-muted small">{{ notice.message }}</span>
+            </div>
+          {% else %}
+            <p>No notices available.</p>
+          {% endfor %}
+          <hr>
+          <div class="text-center mt-4">
+            <a href="{{ url_for('notice_board') }}" class="text-primary fs-5 fw-semibold">
+            View All  <i class="bi bi-arrow-right-circle"></i>
+          </div>
+        </div>
       </div>
-    {% else %}
-      <p>No notices available.</p>
-    {% endfor %}
-    <hr>
-    <a href="{{ url_for('notice_board') }}" class="text-primary">View All →</a>
-  </div>
-</div>
-
 
     </div>
   </div>
