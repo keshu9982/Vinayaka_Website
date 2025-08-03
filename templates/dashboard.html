@@ -62,7 +62,17 @@
                 <a href="{{ url_for('add_employee') }}" class="btn btn-success">Add Employee</a>
                 <a href="{{ url_for('upload') }}" class="btn btn-warning">Upload CSV</a>
             </div>
-            <a href="{{ url_for('company_info') }}" class="btn btn-info">Company Info</a>
+            <div class="d-flex justify-content-end gap-2 mb-3">
+                <a href="{{ url_for('company_documents') }}" class="btn" style="background-color: #07ff62; color: black;">
+                     📁 Company Documents
+                </a>
+
+                <a href="{{ url_for('company_info') }}" class="btn" style="background-color: #715cd8; color: black;">
+                    🏢 Company Info
+                </a>
+
+            </div>
+
         </div>
 
         <!-- Employee Table -->
@@ -107,5 +117,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
 </body>
 </html>

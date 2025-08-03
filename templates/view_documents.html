@@ -1,0 +1,13 @@
+<h5 class="mb-3">Uploaded Documents:</h5>
+<ul class="list-group">
+  {% for filename in documents %}
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    {{ filename }}
+    <form method="POST" action="{{ url_for('delete_document', filename=filename) }}">
+      <button class="btn btn-sm btn-danger" type="submit">🗑 Delete</button>
+    </form>
+  </li>
+  {% else %}
+  <li class="list-group-item">No documents uploaded.</li>
+  {% endfor %}
+</ul>
