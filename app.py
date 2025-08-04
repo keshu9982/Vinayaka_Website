@@ -374,25 +374,36 @@ def view_reset_requests():
     requests = PasswordResetRequest.query.order_by(PasswordResetRequest.requested_at.desc()).all()
     return render_template('view_reset_requests.html', requests=requests)
 
+#######################Reset now #####################
 @app.route('/reset-now/<int:req_id>', methods=['GET', 'POST'])
 def reset_now(req_id):
     if "user" not in session:
         return redirect(url_for('login'))
 
+    # ✅ Ensure reset_requests.json exists
+    if not os.path.exists("reset_requests.json"):
+        with open("reset_requests.json", "w") as f:
+            json.dump([], f)
+
+    # ✅ Load reset request by ID
     req = PasswordResetRequest.query.get_or_404(req_id)
 
+    # ✅ Load employee data from employees.json
     employees = []
     if os.path.exists("employees.json"):
         with open("employees.json", "r") as f:
             employees = json.load(f)
 
-    user = next((e for e in employees if e["username"] == req.identifier or e["email"] == req.identifier), None)
+    # ✅ Find user by email or username
+    user = next((e for e in employees if e.get("username") == req.identifier or e.get("email") == req.identifier), None)
 
     if request.method == "POST":
         new_password = request.form["new_password"]
         if user:
             user["password"] = generate_password_hash(new_password)
-            json.dump(employees, open("employees.json", "w"), indent=2)
+            with open("employees.json", "w") as f:
+                json.dump(employees, f, indent=2)
+
             db.session.delete(req)
             db.session.commit()
             flash("Password reset successfully!", "success")
@@ -401,7 +412,39 @@ def reset_now(req_id):
 
         return redirect(url_for('dashboard'))
 
-    return render_template("reset_now.html", req=req, user=user)
+    # ✅ Pass req_id to template (important for url_for)
+    return render_template("reset_now.html", req=req, user=user, req_id=req_id)
+
+
+
+# @app.route('/reset-now/<int:req_id>', methods=['GET', 'POST'])
+# def reset_now(req_id):
+#     if "user" not in session:
+#         return redirect(url_for('login'))
+
+#     req = PasswordResetRequest.query.get_or_404(req_id)
+
+#     employees = []
+#     if os.path.exists("employees.json"):
+#         with open("employees.json", "r") as f:
+#             employees = json.load(f)
+
+#     user = next((e for e in employees if e["username"] == req.identifier or e["email"] == req.identifier), None)
+
+#     if request.method == "POST":
+#         new_password = request.form["new_password"]
+#         if user:
+#             user["password"] = generate_password_hash(new_password)
+#             json.dump(employees, open("employees.json", "w"), indent=2)
+#             db.session.delete(req)
+#             db.session.commit()
+#             flash("Password reset successfully!", "success")
+#         else:
+#             flash("User not found!", "danger")
+
+#         return redirect(url_for('dashboard'))
+
+#     return render_template("reset_now.html", req=req, user=user)
 
 @app.route('/reject-request/<int:req_id>')
 def reject_request(req_id):
