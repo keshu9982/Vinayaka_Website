@@ -115,8 +115,9 @@
             <td>{{ emp.leaving_date }}</td>
             <td>
                 <!-- Optional Edit/Delete buttons -->
-                <a href="#" class="btn btn-sm btn-warning">Edit</a>
-                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                <a href="{{ url_for('edit_employee', index=loop.index0) }}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{{ url_for('delete_employee', index=loop.index0) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+
             </td>
         </tr>
         {% endfor %}
@@ -130,3 +131,4 @@
     
 </body>
 </html>
+
